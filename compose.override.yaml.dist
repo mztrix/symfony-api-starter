@@ -1,0 +1,33 @@
+x-app-nginx-attributes: &app-nginx-attributes
+  image: ${IMAGES_PREFIX:-}app-nginx
+  ports:
+    - "8080:80"
+
+x-app-database-attributes: &app-database-attributes
+  image: postgres:${POSTGRES_VERSION:-17}-alpine
+  restart: unless-stopped
+  environment:
+    POSTGRES_DB: ${POSTGRES_DB:-dbname}
+    POSTGRES_USER: ${POSTGRES_USER:-user}
+    POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+  ports:
+    - "5432:5432"
+  healthcheck:
+    test: [ "CMD", "pg_isready", "-d", "${POSTGRES_DB:-dbname}", "-U", "${POSTGRES_USER:-user}" ]
+    timeout: 5s
+    retries: 5
+    start_period: 60s
+  volumes:
+    - db-data:/var/lib/postgresql/data:rw
+
+x-app-php-attributes: &app-php-attributes
+  depends_on:
+    app-database:
+      condition: service_healthy
+  extra_hosts:
+    - host.docker.internal:host-gateway
+
+services:
+  app-nginx: *app-nginx-attributes
+  app-database: *app-database-attributes
+  app-php: *app-php-attributes
