@@ -1,10 +1,6 @@
 # Symfony Api Starter
 
-Kickstart your REST API development with a modern, pre-configured Symfony + API Platform stack.
-
-## Architecture Documentation
-
-Detailed architecture documentation is available in the [ARCHITECTURE.md](docs/ARCHITECTURE.md) file. This documentation includes:
+Kick off your next big idea with a sleek, ready-to-use Symfony + API Platform stack designed for effortless REST API development.
 
 ## Technical Stack
 
@@ -83,10 +79,6 @@ docker compose exec app-php bin/phpunit
 ## Contributing
 
 Contributions are welcome! Please check our contribution guide for more details.
-
-## License
-
-This project is proprietary licensed.
 
 ## Security
 

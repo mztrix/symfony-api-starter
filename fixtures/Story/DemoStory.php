@@ -19,6 +19,6 @@ final class DemoStory extends Story
     public function build(): void
     {
         // create a user
-        $userProxy = UserFactory::createOne(['identifier' => 'demo@demo.fr', 'password' => 'demo1234%']);
+        UserFactory::createOne(['identifier' => 'demo@demo.fr', 'plainPassword' => 'demo1234%']);
     }
 }

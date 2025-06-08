@@ -1,8 +1,30 @@
 {
+    "name": "organization/project-name",
     "type": "project",
+    "description": "A description of your awesome project",
+    "keywords": [
+        "api",
+        "symfony",
+        "api-platform"
+    ],
+    "homepage": "https://domain.tld",
     "license": "proprietary",
-    "minimum-stability": "stable",
-    "prefer-stable": true,
+    "authors": [
+        {
+            "name": "Firstname Lastname",
+            "email": "xxxxxx@domain.tld",
+            "homepage": "https://github.com/username"
+        },
+        {
+            "name": "Your App Community",
+            "homepage": "https://domain.tld/contributors"
+        }
+    ],
+    "support": {
+        "email": "xxxxxx@domain.tld",
+        "issues": "https://github.com/organization/project-name/issues",
+        "source": "https://github.com/organization/project-name"
+    },
     "require": {
         "php": ">=8.4",
         "ext-ctype": "*",
@@ -34,6 +56,34 @@
         "symfony/validator": "7.3.*",
         "symfony/yaml": "7.3.*"
     },
+    "replace": {
+        "symfony/polyfill-ctype": "*",
+        "symfony/polyfill-iconv": "*",
+        "symfony/polyfill-php72": "*",
+        "symfony/polyfill-php73": "*",
+        "symfony/polyfill-php74": "*",
+        "symfony/polyfill-php80": "*",
+        "symfony/polyfill-php81": "*",
+        "symfony/polyfill-php82": "*",
+        "symfony/polyfill-php83": "*"
+    },
+    "require-dev": {
+        "dama/doctrine-test-bundle": "^8.3",
+        "doctrine/doctrine-fixtures-bundle": "^4.1",
+        "friendsofphp/php-cs-fixer": "^3.75",
+        "mtdowling/jmespath.php": "^2.8",
+        "phpstan/phpstan": "^2.1",
+        "phpstan/phpstan-doctrine": "^2.0",
+        "phpstan/phpstan-symfony": "^2.0",
+        "phpunit/phpunit": "^12.1",
+        "rector/rector": "^2.0",
+        "symfony/maker-bundle": "^1.63",
+        "symfony/phpunit-bridge": "^7.3",
+        "symfony/stopwatch": "7.3.*",
+        "symfony/web-profiler-bundle": "7.3.*",
+        "zenstruck/browser": "^1.9",
+        "zenstruck/foundry": "^2.5"
+    },
     "config": {
         "allow-plugins": {
             "php-http/discovery": true,
@@ -41,7 +91,7 @@
             "symfony/runtime": true
         },
         "bump-after-update": false,
-        "sort-packages": true
+        "sort-packages": false
     },
     "autoload": {
         "psr-4": {
@@ -55,16 +105,15 @@
             "App\\Tests\\": "tests/"
         }
     },
-    "replace": {
-        "symfony/polyfill-ctype": "*",
-        "symfony/polyfill-iconv": "*",
-        "symfony/polyfill-php72": "*",
-        "symfony/polyfill-php73": "*",
-        "symfony/polyfill-php74": "*",
-        "symfony/polyfill-php80": "*",
-        "symfony/polyfill-php81": "*",
-        "symfony/polyfill-php82": "*",
-        "symfony/polyfill-php83": "*"
+    "conflict": {
+        "symfony/symfony": "*"
+    },
+    "extra": {
+        "symfony": {
+            "allow-contrib": true,
+            "require": "7.3.*",
+            "docker": true
+        }
     },
     "scripts": {
         "run:export-doc": "docker run --rm -v $(pwd):/data -w /data phpdoc/phpdoc",
@@ -84,36 +133,5 @@
             "@auto-scripts"
         ]
     },
-    "conflict": {
-        "symfony/symfony": "*"
-    },
-    "extra": {
-        "symfony": {
-            "allow-contrib": true,
-            "require": "7.3.*",
-            "docker": true
-        }
-    },
-    "keywords": [
-        "api",
-        "api-platform",
-        "symfony"
-    ],
-    "require-dev": {
-        "dama/doctrine-test-bundle": "^8.3",
-        "doctrine/doctrine-fixtures-bundle": "^4.1",
-        "friendsofphp/php-cs-fixer": "^3.75",
-        "mtdowling/jmespath.php": "^2.8",
-        "phpstan/phpstan": "^2.1",
-        "phpstan/phpstan-doctrine": "^2.0",
-        "phpstan/phpstan-symfony": "^2.0",
-        "phpunit/phpunit": "^12.1",
-        "rector/rector": "^2.0",
-        "symfony/maker-bundle": "^1.63",
-        "symfony/phpunit-bridge": "^7.3",
-        "symfony/stopwatch": "7.3.*",
-        "symfony/web-profiler-bundle": "7.3.*",
-        "zenstruck/browser": "^1.9",
-        "zenstruck/foundry": "^2.5"
-    }
+    "minimum-stability": "stable"
 }

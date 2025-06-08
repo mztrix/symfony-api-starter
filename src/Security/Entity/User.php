@@ -18,21 +18,23 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UlidGenerator;
 use Symfony\Bridge\Doctrine\Types\UlidType;
+use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Attribute as Serializer;
 use Symfony\Component\Uid\Ulid;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\PasswordStrength;
 
 /**
- * Supports user account management.
+ * Represents a user account within the application.
  *
- * Enables client applications to create new users, retrieve user profiles,
- * update credentials (such as passwords), and assign application roles.
- *
- * Typically used in authentication workflows and administrative user management interfaces.
+ * Used to create, authenticate, and manage users who access the platform,
+ * with permissions defined through configurable roles.
  */
 #[ORM\Entity]
 #[ORM\Table(name: '`user`')]
+#[DoctrineAssert\UniqueEntity(fields: ['identifier'])]
 #[ApiMetadata\ApiResource(
     normalizationContext: ['groups' => ['user:read']],
     denormalizationContext: ['groups' => ['user:write']],
@@ -49,62 +51,49 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public Ulid $id;
 
     #[ORM\Column(type: Types::STRING, length: 128, unique: true)]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 128)]
     #[Serializer\Groups(['user:read', 'user:write'])]
     public string $identifier;
 
-    /**
-     * The password of the user (hashed).
-     */
     #[ORM\Column(type: Types::STRING, length: 128)]
     public string $password;
 
-    /**
-     * The plain password entered by the user (for validation purposes).
-     * This is used for creating or updating the password, but is not stored in the database.
-     */
+    #[Assert\Length(min: 8, max: 128)]
+    #[PasswordStrength(
+        minScore: PasswordStrength::STRENGTH_MEDIUM,
+    )]
     #[Serializer\Groups(['user:write'])]
-    public ?string $plainPassword;
+    public ?string $plainPassword = null;
 
-    /**
-     * The roles assigned to the user.
-     * This is a list of roles (e.g., 'ROLE_USER', 'ROLE_ADMIN') that define the user's permissions within the system.
-     */
     /** @var list<string> */
     #[ORM\Column(type: Types::JSON)]
+    #[Assert\NotNull]
+    #[Assert\All([
+        new Assert\NotBlank(),
+        new Assert\Regex(pattern: '/^ROLE_[A-Z_]+$/'),
+    ])]
     #[Serializer\Groups(['user:read', 'user:write'])]
     public array $roles = [];
 
-    /**
-     * Get the password used for authentication.
-     * This method is required by the `PasswordAuthenticatedUserInterface`.
-     */
     public function getPassword(): string
     {
         return $this->password;
     }
 
-    /**
-     * Get the roles assigned to the user.
-     * This method is required by the `UserInterface`.
-     *
-     * @return list<string> A list of roles (e.g., 'ROLE_USER', 'ROLE_ADMIN').
-     */
+    /** @return list<string> A list of roles (e.g., 'ROLE_USER', 'ROLE_ADMIN'). */
     public function getRoles(): array
     {
         return $this->roles;
     }
 
-    /**
-     * Get the unique identifier of the user.
-     * This method is required by the `UserInterface`.
-     */
     public function getUserIdentifier(): string
     {
         return $this->identifier;
     }
 
     #[\Deprecated(
-        message: 'The "eraseCredentials()" method is deprecated since Symfony 7.3. It will be removed in Symfony 8.0. Consider using AuthenticationTokenCreatedListener to erase credentials after authentication instead.',
+        message: 'The "eraseCredentials()" method is deprecated since Symfony 7.3. It will be removed in Symfony 8.0.',
         since: '7.3'
     )]
     public function eraseCredentials(): void

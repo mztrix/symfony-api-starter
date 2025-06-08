@@ -79,7 +79,7 @@ final class UserEndpointTest extends KernelTestCase
             ->post('/users', [
                 'json' => [
                     'identifier' => 'john@doe',
-                    'plainPassword' => '$3CR3T',
+                    'plainPassword' => '4IyjFA/4Hc1C4xK',
                     'roles' => ['ROLE_TEST'],
                 ],
             ])
@@ -105,7 +105,7 @@ final class UserEndpointTest extends KernelTestCase
             ->patch($userIri, [
                 'json' => [
                     'identifier' => 'test_updated@example.com',
-                    'plainPassword' => '$3CR3T',
+                    'plainPassword' => '4IyjFA/4Hc1C4xK',
                     'roles' => ['ROLE_TEST_UPDATED'],
                 ],
                 'headers' => [

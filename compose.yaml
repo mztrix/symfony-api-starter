@@ -14,6 +14,11 @@ x-app-php-attributes: &app-php-attributes
     timeout: 3s
     retries: 10
     start_period: 60s
+  depends_on:
+    app-database:
+      condition: service_healthy
+  extra_hosts:
+    - host.docker.internal:host-gateway
   command: ["php-fpm", "-F"]
 
 x-app-database-attributes: &app-database-attributes
@@ -23,8 +28,6 @@ x-app-database-attributes: &app-database-attributes
     POSTGRES_DB: ${POSTGRES_DB:-dbname}
     POSTGRES_USER: ${POSTGRES_USER:-user}
     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
-  ports:
-    - "5432:5432"
   healthcheck:
     test: [ "CMD", "pg_isready", "-d", "${POSTGRES_DB:-dbname}", "-U", "${POSTGRES_USER:-user}" ]
     timeout: 5s
