@@ -20,7 +20,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         'providers' => [
             'user_provider' => [
                 'entity' => [
-                    'class' => 'App\Security\Entity\User',
+                    'class' => \App\Security\Entity\User::class,
                     'property' => 'identifier',
                 ],
             ],
