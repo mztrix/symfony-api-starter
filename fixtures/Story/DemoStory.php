@@ -12,8 +12,10 @@ declare(strict_types=1);
 namespace App\Fixtures\Story;
 
 use App\Fixtures\Factory\UserFactory;
+use Zenstruck\Foundry\Attribute\AsFixture;
 use Zenstruck\Foundry\Story;
 
+#[AsFixture(name: 'demo')]
 final class DemoStory extends Story
 {
     public function build(): void

@@ -50,6 +50,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             ],
         ]);
     }
+
     if ('prod' === $containerConfigurator->env()) {
         $containerConfigurator->extension('doctrine', [
             'orm' => [

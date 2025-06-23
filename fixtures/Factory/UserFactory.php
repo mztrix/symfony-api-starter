@@ -35,9 +35,9 @@ class UserFactory extends PersistentProxyObjectFactory
     protected function defaults(): array
     {
         return [
-            'identifier' => self::faker()->userName,
+            'identifier' => self::faker()->text(128),
             'plainPassword' => '$ecr$tPa$$word',
-            'roles' => ['ROLE_USER'],
+            'roles' => [],
         ];
     }
 

@@ -22,11 +22,4 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             ],
         ]);
     }
-    if ('test' === $containerConfigurator->env()) {
-        $containerConfigurator->extension('framework', [
-            'profiler' => [
-                'collect' => false,
-            ],
-        ]);
-    }
 };
