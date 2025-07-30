@@ -9,11 +9,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Security\Entity;
+namespace App\Users\Model;
 
 use ApiPlatform\Metadata as ApiMetadata;
-use ApiPlatform\OpenApi\Model\Operation;
-use App\Security\ApiPlatform\State\UserProcessor;
+use App\Users\ApiPlateform\State\UserProcessor;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\IdGenerator\UlidGenerator;
@@ -26,19 +25,12 @@ use Symfony\Component\Uid\Ulid;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\PasswordStrength;
 
-/**
- * Represents a user account within the application.
- *
- * Used to create, authenticate, and manage users who access the platform,
- * with permissions defined through configurable roles.
- */
 #[ORM\Entity]
 #[ORM\Table(name: '`user`')]
 #[DoctrineAssert\UniqueEntity(fields: ['identifier'])]
 #[ApiMetadata\ApiResource(
     normalizationContext: ['groups' => ['user:read']],
     denormalizationContext: ['groups' => ['user:write']],
-    openapi: new Operation(tags: ['Security']),
     processor: UserProcessor::class,
 )]
 class User implements UserInterface, PasswordAuthenticatedUserInterface

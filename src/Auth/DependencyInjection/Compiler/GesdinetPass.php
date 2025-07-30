@@ -9,18 +9,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Security\DependencyInjection\Compiler;
+namespace App\Auth\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-/**
- * Compiler pass to expose Lexik JWT Authentication parameters for API Platform.
- *
- * This pass extracts key configuration values from the JSON login authenticator
- * in the security firewalls and sets them as container parameters. These parameters
- * (API path, username, and password) are then used by API Platform to configure JWT authentication.
- */
 final class GesdinetPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
@@ -28,14 +21,6 @@ final class GesdinetPass implements CompilerPassInterface
         $this->addOpenApiFactory($container);
     }
 
-    /**
-     * Extracts the API path, username, and password values from the JSON login authenticator
-     * configuration in the security firewalls and sets them as container parameters.
-     *
-     * If the username or password value is not defined, default values ('username' or 'password') are used.
-     *
-     * @param ContainerBuilder $container the container builder
-     */
     private function addOpenApiFactory(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition('gesdinet_jwt_refresh.api_platform.openapi.factory') || !$container->hasParameter('security.firewalls')) {

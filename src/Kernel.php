@@ -11,8 +11,7 @@ declare(strict_types=1);
 
 namespace App;
 
-use App\Security\DependencyInjection\Compiler\GesdinetPass;
-use App\Security\DependencyInjection\Compiler\LexikPass;
+use App\Auth\DependencyInjection\Compiler\GesdinetPass;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
@@ -23,7 +22,6 @@ class Kernel extends BaseKernel
 
     protected function build(ContainerBuilder $container): void
     {
-        $container->addCompilerPass(new LexikPass());
         $container->addCompilerPass(new GesdinetPass());
     }
 }
