@@ -9,7 +9,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Security\Entity;
+namespace App\Auth\Model;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -18,14 +18,6 @@ use Gesdinet\JWTRefreshTokenBundle\Model\AbstractRefreshToken;
 use Symfony\Bridge\Doctrine\IdGenerator\UlidGenerator;
 use Symfony\Bridge\Doctrine\Types\UlidType;
 
-/**
- * Represents a refresh token used for JWT authentication in the system.
- *
- * This entity extends the base refresh token provided by the GesdinetJWTRefreshTokenBundle,
- * and is responsible for storing and managing the lifecycle of refresh tokens.
- * Refresh tokens are used to obtain new access tokens when the current ones expire,
- * ensuring secure and continuous authentication.
- */
 #[ORM\Entity(repositoryClass: RefreshTokenRepository::class)]
 class RefreshToken extends AbstractRefreshToken
 {

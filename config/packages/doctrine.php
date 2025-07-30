@@ -30,12 +30,19 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             ],
             'auto_mapping' => true,
             'mappings' => [
-                'Security' => [
+                'Auth' => [
                     'type' => 'attribute',
                     'is_bundle' => false,
-                    'dir' => '%kernel.project_dir%/src/Security/Entity',
-                    'prefix' => 'App\Security\Entity',
-                    'alias' => 'Security',
+                    'dir' => '%kernel.project_dir%/src/Auth/Model',
+                    'prefix' => 'App\Auth\Model',
+                    'alias' => 'Auth',
+                ],
+                'Users' => [
+                    'type' => 'attribute',
+                    'is_bundle' => false,
+                    'dir' => '%kernel.project_dir%/src/Users/Model',
+                    'prefix' => 'App\Users\Model',
+                    'alias' => 'Users',
                 ],
             ],
             'controller_resolver' => [

@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace App\Fixtures\Factory;
 
-use App\Security\Entity\User;
+use App\Users\Model\User;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
 

@@ -13,7 +13,7 @@ namespace App\Tests\Functional;
 
 use ApiPlatform\Metadata\IriConverterInterface;
 use App\Fixtures\Factory\UserFactory;
-use App\Security\Entity\User;
+use App\Users\Model\User;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase as baseKernelTestCase;
 use Zenstruck\Browser\Test\HasBrowser;
 use Zenstruck\Foundry\Test\Factories;

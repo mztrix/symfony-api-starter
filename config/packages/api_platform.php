@@ -65,7 +65,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ],
         'mapping' => [
             'paths' => [
-                '%kernel.project_dir%/src/Security/Entity',
+                '%kernel.project_dir%/src/Auth/Model',
+                '%kernel.project_dir%/src/Users/Model',
             ],
         ],
     ]);

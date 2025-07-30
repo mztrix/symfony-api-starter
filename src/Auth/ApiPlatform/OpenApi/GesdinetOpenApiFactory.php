@@ -9,7 +9,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Security\ApiPlatform\OpenApi;
+namespace App\Auth\ApiPlatform\OpenApi;
 
 use ApiPlatform\OpenApi\Factory\OpenApiFactoryInterface;
 use ApiPlatform\OpenApi\Model\MediaType;
@@ -22,18 +22,6 @@ use Symfony\Component\DependencyInjection\Attribute\AsAlias;
 use Symfony\Component\DependencyInjection\Attribute\AsDecorator;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * Decorates the API Platform's OpenApiFactory to add JWT refresh token
- * endpoint documentation to the OpenAPI specification. It adds a dedicated path
- * for token refresh operations with appropriate request/response schemas.
- *
- * The factory implements the OpenApiFactoryInterface and uses the decorator pattern
- * to extend the core API Platform functionality without modifying it directly.
- *
- * It exposes a POST endpoint at /refresh_tokens that accepts a refresh token and
- * returns a new JWT token along with a new refresh token. This documentation helps
- * API consumers understand how to refresh authentication tokens when they expire.
- */
 #[AsDecorator('api_platform.openapi.factory')]
 #[AsAlias('gesdinet_jwt_refresh.api_platform.openapi.factory', public: false)]
 final readonly class GesdinetOpenApiFactory implements OpenApiFactoryInterface
@@ -50,10 +38,10 @@ final readonly class GesdinetOpenApiFactory implements OpenApiFactoryInterface
     {
         $openApi = ($this->decorated)($context);
 
-        $openApi->getPaths()->addPath('/refresh_tokens', new PathItem()->withPost(
+        $openApi->getPaths()->addPath('/auth/refresh_tokens', new PathItem()->withPost(
             new Operation()
-                ->withOperationId('api_refresh_tokens_post')
-                ->withTags(['Security'])
+                ->withOperationId('api_auth_refresh_tokens_post')
+                ->withTags(['Auth'])
                 ->withResponses([
                     Response::HTTP_OK => [
                         'description' => 'User token refreshed.',
