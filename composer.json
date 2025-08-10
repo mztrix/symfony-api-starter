@@ -8,7 +8,7 @@
         "api-platform"
     ],
     "homepage": "https://domain.tld",
-    "license": "proprietary",
+    "license": "mit",
     "authors": [
         {
             "name": "Firstname Lastname",
