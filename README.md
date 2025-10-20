@@ -5,7 +5,7 @@ A modern, ready-to-use starter to build REST APIs with Symfony + API Platform. D
 [![License: MIT](https://img.shields.io/badge/License-MIT-green)](https://opensource.org/licenses/MIT)
 ![PHP 8.4](https://img.shields.io/badge/PHP-8.4-777bb3?logo=php&logoColor=white)
 ![Symfony 7.3](https://img.shields.io/badge/Symfony-7.3-black?logo=symfony)
-![API Platform 4.1](https://img.shields.io/badge/API%20Platform-4.1-3849D4?logo=apiplatform&logoColor=white)
+![API Platform 4.2](https://img.shields.io/badge/API%20Platform-4.2-3849D4?logo=apiplatform&logoColor=white)
 ![Doctrine ORM 3.5](https://img.shields.io/badge/Doctrine%20ORM-3.5-f57600)
 ![PostgreSQL 17](https://img.shields.io/badge/PostgreSQL-17-336791?logo=postgresql&logoColor=white)
 ![Docker Ready](https://img.shields.io/badge/Docker-ready-2496ED?logo=docker&logoColor=white)
@@ -31,13 +31,13 @@ Note: This repository is a GitHub template. To get started, click “Use this te
 - [Support](#support)
 
 ## Overview
-- Production‑grade Symfony 7.3 + API Platform 4.1 starter.
+- Production‑grade Symfony 7.3 + API Platform 4.2 starter.
 - Dockerized stack (Nginx + PHP‑FPM + PostgreSQL) for local dev and CI.
 - Clean developer experience: migrations, fixtures, testing, and code‑quality tooling.
 - Live API docs at http://localhost:8080/docs when Docker is running.
 
 ## Features
-- API Platform 4.1 with built-in documentation (/docs) and OpenAPI export.
+- API Platform 4.2 with built-in documentation (/docs) and OpenAPI export.
 - JWT authentication (lexik) + refresh tokens (gesdinet, single_use=true).
 - Docker stack (Nginx + PHP-FPM) and PostgreSQL 17.
 - Developer tooling ready: PHPUnit 12, Zenstruck Browser/Foundry, DAMA Doctrine Test Bundle, PHPStan, Rector, PHP CS Fixer.
