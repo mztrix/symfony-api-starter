@@ -32,6 +32,20 @@ final readonly class UserProcessor implements ProcessorInterface
     ) {
     }
 
+    /**
+     * Processes a User entity based on the given operation.
+     *
+     * If the operation is a deletion, the removal processor is used.
+     * Otherwise, the user's plain password is hashed,
+     * and the entity is persisted using the persist processor.
+     *
+     * @param User      $data         the data to process; must be an instance of User
+     * @param Operation $operation    the API Platform operation being executed
+     * @param array     $uriVariables URI variables for the operation
+     * @param array     $context      additional context for processing
+     *
+     * @return User|void the processed data, or void if the operation is a deletion
+     */
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
         assert($data instanceof User);

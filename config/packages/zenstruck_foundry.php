@@ -12,7 +12,7 @@ declare(strict_types=1);
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
-    if ('dev' === $containerConfigurator->env()) {
+    if (in_array($containerConfigurator->env(), ['dev', 'test'], true)) {
         $containerConfigurator->extension('zenstruck_foundry', [
             'orm' => [
                 'reset' => ['mode' => 'migrate'],
@@ -26,20 +26,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             'make_story' => [
                 'default_namespace' => 'App\Fixtures\Story',
             ],
-        ]);
-    }
-
-    if ('test' === $containerConfigurator->env()) {
-        $containerConfigurator->extension('zenstruck_foundry', [
-            'persistence' => [
-                'flush_once' => true,
-            ],
-            'make_factory' => [
-                'default_namespace' => 'App\Fixtures\Factory',
-            ],
-            'make_story' => [
-                'default_namespace' => 'App\Fixtures\Story',
-            ],
+            'enable_auto_refresh_with_lazy_objects' => true,
         ]);
     }
 };

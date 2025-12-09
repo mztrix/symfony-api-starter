@@ -13,25 +13,27 @@ namespace App\Fixtures\Factory;
 
 use App\Users\Model\User;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
+use Zenstruck\Foundry\Persistence\PersistentObjectFactory;
 
 /**
  * @internal
  *
- * @extends PersistentProxyObjectFactory<User>
+ * @extends PersistentObjectFactory<User>
  */
-class UserFactory extends PersistentProxyObjectFactory
+class UserFactory extends PersistentObjectFactory
 {
     public function __construct(private readonly UserPasswordHasherInterface $userPasswordHasher)
     {
         parent::__construct();
     }
 
+    #[\Override]
     public static function class(): string
     {
         return User::class;
     }
 
+    #[\Override]
     protected function defaults(): array
     {
         return [
@@ -41,6 +43,7 @@ class UserFactory extends PersistentProxyObjectFactory
         ];
     }
 
+    #[\Override]
     protected function initialize(): static
     {
         return $this->afterInstantiate(function (User $user): void {

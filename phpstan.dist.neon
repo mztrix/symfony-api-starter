@@ -3,6 +3,8 @@ parameters:
     paths:
         - bin/
         - config/
+        - public/
+        - fixtures/
         - src/
         - tests/
     doctrine:

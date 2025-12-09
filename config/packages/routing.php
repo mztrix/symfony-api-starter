@@ -11,9 +11,13 @@ declare(strict_types=1);
 
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
+use function Symfony\Component\DependencyInjection\Loader\Configurator\param;
+
 return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->extension('framework', [
-        'router' => null,
+        'router' => [
+            'default_uri' => param('default_uri'),
+        ],
     ]);
     if ('prod' === $containerConfigurator->env()) {
         $containerConfigurator->extension('framework', [

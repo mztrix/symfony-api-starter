@@ -9,7 +9,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\ApiPlatform\Doctrine\Orm\Filter;
+namespace App\Shared\ApiPlatform\Doctrine\Orm\Filter;
 
 use ApiPlatform\Doctrine\Common\Filter\SearchFilterInterface;
 use ApiPlatform\Doctrine\Common\Filter\SearchFilterTrait;
@@ -212,7 +212,7 @@ final class SearchFilter extends AbstractFilter implements SearchFilterInterface
 
             $queryBuilder
                 ->andWhere($queryBuilder->expr()->in($wrapCase($aliasedField), $valueParameter))
-                ->setParameter($valueParameter, $caseSensitive ? $values : array_map('strtolower', $values))
+                ->setParameter($valueParameter, $caseSensitive ? $values : array_map(strtolower(...), $values))
             ;
 
             return;
@@ -222,7 +222,7 @@ final class SearchFilter extends AbstractFilter implements SearchFilterInterface
         $parameters = [];
         foreach ($values as $key => $value) {
             $keyValueParameter = \sprintf('%s_%s', $valueParameter, $key);
-            $parameters[] = [$caseSensitive ? $value : strtolower($value), $keyValueParameter];
+            $parameters[] = [$caseSensitive ? $value : strtolower((string) $value), $keyValueParameter];
 
             $ors[] = match ($strategy) {
                 self::STRATEGY_PARTIAL => $queryBuilder->expr()->like(
