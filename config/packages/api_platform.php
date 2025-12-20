@@ -15,14 +15,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->extension('api_platform', [
         'title' => 'Symfony Api Starter',
         'show_webby' => false,
-        'swagger' => [
-            'api_keys' => [
-                'JWT' => [
-                    'name' => 'Authorization',
-                    'type' => 'header',
-                ],
-            ],
-        ],
         'formats' => [
             'jsonld' => [
                 'application/ld+json',

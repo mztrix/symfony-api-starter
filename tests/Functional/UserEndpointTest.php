@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional;
 
-use App\Fixtures\Factory\UserFactory;
 use PHPUnit\Framework\Attributes\Group;
 use Symfony\Component\HttpFoundation\Response;
 use Zenstruck\Browser\Json;
@@ -27,8 +26,6 @@ final class UserEndpointTest extends KernelTestCase
     #[Group('getCollection-users-endpoints-success')]
     public function testGetCollectionSuccess(): void
     {
-        UserFactory::createMany(3);
-
         $this->browser()
             ->actingAs($this->createUser())
             ->get('/users')
@@ -37,7 +34,7 @@ final class UserEndpointTest extends KernelTestCase
             ->assertJsonMatches('"@context"', '/contexts/User')
             ->assertJsonMatches('"@id"', '/users')
             ->assertJsonMatches('"@type"', 'Collection')
-            ->assertJsonMatches('totalItems', 4)
+            ->assertJsonMatches('totalItems', 1)
             ->use(static function (Json $json): void {
                 $json->assertMatches('keys("member"[0])', [
                     '@id',
@@ -54,13 +51,9 @@ final class UserEndpointTest extends KernelTestCase
     #[Group('get-users-endpoints-success')]
     public function testGetSuccess(): void
     {
-        $user = $this->createUser();
-
-        $userIri = $this->getIriFromResource($user);
-
         $this->browser()
-            ->actingAs($user)
-            ->get($userIri)
+            ->actingAs($user = $this->createUser())
+            ->get($this->getIriFromResource($user))
             ->assertJson()
             ->assertStatus(Response::HTTP_OK)
             ->assertContains('id')

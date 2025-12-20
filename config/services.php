@@ -21,15 +21,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->autoconfigure()
     ;
 
-    $services->load('App\\', __DIR__ . '/../src/')
-        ->exclude([
-            __DIR__ . '/../src/DependencyInjection',
-            __DIR__ . '/../src/Entity',
-            __DIR__ . '/../src/Kernel.php',
-            __DIR__ . '/../src/Security/DependencyInjection',
-            __DIR__ . '/../src/Security/Entity',
-        ])
-    ;
+    $services->load('App\\', __DIR__ . '/../src/');
 
     if (in_array($containerConfigurator->env(), ['dev', 'test'], true)) {
         $services

@@ -3,11 +3,11 @@
 A modern, ready-to-use starter to build REST APIs with Symfony + API Platform. Dockerized, typed, tested, and equipped with quality tooling.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green)](https://opensource.org/licenses/MIT)
-![PHP 8.4](https://img.shields.io/badge/PHP-8.4-777bb3?logo=php&logoColor=white)
-![Symfony 7.3](https://img.shields.io/badge/Symfony-7.3-black?logo=symfony)
+![PHP 8.5](https://img.shields.io/badge/PHP-8.5-777bb3?logo=php&logoColor=white)
+![Symfony 7.4](https://img.shields.io/badge/Symfony-7.4-black?logo=symfony)
 ![API Platform 4.2](https://img.shields.io/badge/API%20Platform-4.2-3849D4?logo=apiplatform&logoColor=white)
 ![Doctrine ORM 3.5](https://img.shields.io/badge/Doctrine%20ORM-3.5-f57600)
-![PostgreSQL 17](https://img.shields.io/badge/PostgreSQL-17-336791?logo=postgresql&logoColor=white)
+![PostgreSQL 18](https://img.shields.io/badge/PostgreSQL-18-336791?logo=postgresql&logoColor=white)
 ![Docker Ready](https://img.shields.io/badge/Docker-ready-2496ED?logo=docker&logoColor=white)
 
 
@@ -31,7 +31,7 @@ Note: This repository is a GitHub template. To get started, click “Use this te
 - [Support](#support)
 
 ## Overview
-- Production‑grade Symfony 7.3 + API Platform 4.2 starter.
+- Production‑grade Symfony 7.4 + API Platform 4.2 starter.
 - Dockerized stack (Nginx + PHP‑FPM + PostgreSQL) for local dev and CI.
 - Clean developer experience: migrations, fixtures, testing, and code‑quality tooling.
 - Live API docs at http://localhost:8080/docs when Docker is running.
@@ -39,14 +39,14 @@ Note: This repository is a GitHub template. To get started, click “Use this te
 ## Features
 - API Platform 4.2 with built-in documentation (/docs) and OpenAPI export.
 - JWT authentication (lexik) + refresh tokens (gesdinet, single_use=true).
-- Docker stack (Nginx + PHP-FPM) and PostgreSQL 17.
+- Docker stack (Nginx + PHP-FPM) and PostgreSQL 18.
 - Developer tooling ready: PHPUnit 12, Zenstruck Browser/Foundry, DAMA Doctrine Test Bundle, PHPStan, Rector, PHP CS Fixer.
 - Doctrine migrations, Foundry factories, demo stories, versioned OpenAPI export.
 
 ## Prerequisites
 - Docker and Docker Compose (recommended), or
 - PHP 8.4+ with required extensions and Composer 2.x
-- PostgreSQL 17 accessible via DATABASE_URL
+- PostgreSQL 18 accessible via DATABASE_URL
 
 ## Quick Start
 
@@ -58,7 +58,7 @@ Note: This repository is a GitHub template. To get started, click “Use this te
    ```
 2. Copy and adapt the override to expose ports:
    ```bash
-   cp compose.override.yaml.dist compose.override.yaml
+   cp compose.override.dist.yaml compose.override.yaml
    ```
 3. Start the environment:
    ```bash
@@ -77,11 +77,11 @@ Note: This repository is a GitHub template. To get started, click “Use this te
 
 
 ## Composer Scripts
-- Tests: `composer run run:tests`
-- Fixtures: `composer run run:fixtures`
-- OpenAPI export: `composer run run:export-openapi-doc`
-- PHP CS Fixer: `composer run run:php-cs-fixer`
-- Rector: `composer run run:rector`
+- Tests: `composer run tests`
+- Fixtures: `composer run fixtures`
+- OpenAPI export: `composer run export-openapi-doc`
+- PHP CS Fixer: `composer run php-cs-fixer`
+- Rector: `composer run rector`
 
 
 ## Tests
@@ -102,8 +102,8 @@ Note: This repository is a GitHub template. To get started, click “Use this te
   ```
 
 ## Code Quality
-- PHP CS Fixer (PSR-12): `composer run run:php-cs-fixer`
-- Rector (upgrades/refactoring): `composer run run:rector`
+- PHP CS Fixer (PSR-12): `composer run php-cs-fixer`
+- Rector (upgrades/refactoring): `composer run rector`
 - PHPStan: `vendor/bin/phpstan analyse`
 
 ## Project Structure
@@ -120,7 +120,7 @@ Note: This repository is a GitHub template. To get started, click “Use this te
 - DAMA Doctrine Test Bundle wraps each test in a transaction; ensure the test schema exists (create DB and run migrations with -e test).
 - Docker: copy compose.override.yaml.dist to compose.override.yaml to expose ports before starting; health checks are enabled.
 - JWT keys live in config/jwt; ensure JWT_SECRET_KEY, JWT_PUBLIC_KEY, JWT_PASSPHRASE in .env(.local) match.
-- OpenAPI export: `composer run run:export-openapi-doc` writes openapi.json at repo root.
+- OpenAPI export: `composer run export-openapi-doc` writes openapi.json at repo root.
 - If functional tests 401/403, use actingAs(...) with a User via Foundry and check security rules.
 - PHP >= 8.4 required; rebuild Docker images if you bump PHP.
 

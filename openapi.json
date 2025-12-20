@@ -26,6 +26,92 @@
         }
     ],
     "paths": {
+        "/auth": {
+            "post": {
+                "operationId": "api_auth_post",
+                "tags": [
+                    "Auth"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns a JWT access token and a refresh token for the authenticated user.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "token",
+                                        "refresh_token"
+                                    ],
+                                    "properties": {
+                                        "token": {
+                                            "type": "string",
+                                            "readOnly": true,
+                                            "description": "JWT access token"
+                                        },
+                                        "refresh_token": {
+                                            "type": "string",
+                                            "readOnly": true,
+                                            "description": "Refresh token"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "auth-example": {
+                                        "summary": "Example of authentication response",
+                                        "value": {
+                                            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+                                            "refresh_token": "def50200a1b2c3d4e5f6..."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "summary": "Authenticate user",
+                "description": "Authenticates user credentials and returns a JWT access token and refresh token.",
+                "requestBody": {
+                    "description": "User credentials",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "identifier": {
+                                        "type": "string",
+                                        "description": "User identifier",
+                                        "writeOnly": true,
+                                        "format": "email",
+                                        "minLength": 1,
+                                        "maxLength": 128
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "description": "User password",
+                                        "writeOnly": true,
+                                        "format": "password",
+                                        "minLength": 8,
+                                        "maxLength": 128
+                                    }
+                                }
+                            },
+                            "examples": {
+                                "auth-example": {
+                                    "summary": "Example of authentication request",
+                                    "value": {
+                                        "identifier": "demo@demo.fr",
+                                        "password": "demo1234%"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "security": []
+            }
+        },
         "/auth/refresh_tokens": {
             "post": {
                 "operationId": "api_auth_refresh_tokens_post",
@@ -34,111 +120,72 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "User token refreshed.",
+                        "description": "Returns a JWT access token and a refresh token for the authenticated user.",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "object",
-                                    "properties": {
-                                        "token": {
-                                            "readOnly": true,
-                                            "type": "string",
-                                            "nullable": false
-                                        },
-                                        "refresh_token": {
-                                            "readOnly": true,
-                                            "type": "string",
-                                            "nullable": false
-                                        }
-                                    },
                                     "required": [
                                         "token",
                                         "refresh_token"
-                                    ]
+                                    ],
+                                    "properties": {
+                                        "token": {
+                                            "type": "string",
+                                            "readOnly": true,
+                                            "description": "JWT access token"
+                                        },
+                                        "refresh_token": {
+                                            "type": "string",
+                                            "readOnly": true,
+                                            "description": "Refresh token"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "auth-example": {
+                                        "summary": "Example of authentication response",
+                                        "value": {
+                                            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+                                            "refresh_token": "def50200a1b2c3d4e5f6..."
+                                        }
+                                    }
                                 }
                             }
                         }
                     }
                 },
-                "summary": "Refresh a user token.",
-                "description": "Refresh a user token.",
+                "summary": "Refresh JWT token",
+                "description": "Exchanges a valid refresh token for a new JWT access token and refresh token.",
                 "requestBody": {
-                    "description": "The refresh_token to refresh token",
+                    "description": "Refresh token used to obtain a new JWT access token",
                     "content": {
                         "application/json": {
                             "schema": {
                                 "type": "object",
+                                "required": [
+                                    "refresh_token"
+                                ],
                                 "properties": {
                                     "refresh_token": {
                                         "type": "string",
-                                        "nullable": false
+                                        "description": "Valid refresh token"
                                     }
-                                },
-                                "required": [
-                                    "refresh_token"
-                                ]
-                            }
-                        }
-                    },
-                    "required": true
-                }
-            }
-        },
-        "/auth/login": {
-            "post": {
-                "operationId": "login_check_post",
-                "tags": [
-                    "Login Check"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "User token created",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "token": {
-                                            "readOnly": true,
-                                            "type": "string",
-                                            "nullable": false
-                                        }
-                                    },
-                                    "required": [
-                                        "token"
-                                    ]
+                                }
+                            },
+                            "examples": {
+                                "auth-example": {
+                                    "summary": "Example of refresh token request",
+                                    "value": {
+                                        "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                                    }
                                 }
                             }
                         }
-                    }
-                },
-                "summary": "Creates a user token.",
-                "description": "Creates a user token.",
-                "requestBody": {
-                    "description": "The login data",
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "identifier": {
-                                        "type": "string",
-                                        "nullable": false
-                                    },
-                                    "password": {
-                                        "type": "string",
-                                        "nullable": false
-                                    }
-                                },
-                                "required": [
-                                    "identifier",
-                                    "password"
-                                ]
-                            }
-                        }
                     },
                     "required": true
-                }
+                },
+                "security": []
             }
         },
         "/users": {
@@ -154,93 +201,25 @@
                             "application/ld+json": {
                                 "schema": {
                                     "type": "object",
-                                    "properties": {
-                                        "member": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/User.jsonld-user.read"
-                                            }
+                                    "description": "User.jsonld-user.read collection.",
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/HydraCollectionBaseSchema"
                                         },
-                                        "totalItems": {
-                                            "type": "integer",
-                                            "minimum": 0
-                                        },
-                                        "view": {
+                                        {
                                             "type": "object",
+                                            "required": [
+                                                "member"
+                                            ],
                                             "properties": {
-                                                "@id": {
-                                                    "type": "string",
-                                                    "format": "iri-reference"
-                                                },
-                                                "@type": {
-                                                    "type": "string"
-                                                },
-                                                "first": {
-                                                    "type": "string",
-                                                    "format": "iri-reference"
-                                                },
-                                                "last": {
-                                                    "type": "string",
-                                                    "format": "iri-reference"
-                                                },
-                                                "previous": {
-                                                    "type": "string",
-                                                    "format": "iri-reference"
-                                                },
-                                                "next": {
-                                                    "type": "string",
-                                                    "format": "iri-reference"
-                                                }
-                                            },
-                                            "example": {
-                                                "@id": "string",
-                                                "type": "string",
-                                                "first": "string",
-                                                "last": "string",
-                                                "previous": "string",
-                                                "next": "string"
-                                            }
-                                        },
-                                        "search": {
-                                            "type": "object",
-                                            "properties": {
-                                                "@type": {
-                                                    "type": "string"
-                                                },
-                                                "template": {
-                                                    "type": "string"
-                                                },
-                                                "variableRepresentation": {
-                                                    "type": "string"
-                                                },
-                                                "mapping": {
+                                                "member": {
                                                     "type": "array",
                                                     "items": {
-                                                        "type": "object",
-                                                        "properties": {
-                                                            "@type": {
-                                                                "type": "string"
-                                                            },
-                                                            "variable": {
-                                                                "type": "string"
-                                                            },
-                                                            "property": {
-                                                                "type": [
-                                                                    "string",
-                                                                    "null"
-                                                                ]
-                                                            },
-                                                            "required": {
-                                                                "type": "boolean"
-                                                            }
-                                                        }
+                                                        "$ref": "#/components/schemas/User.jsonld-user.read"
                                                     }
                                                 }
                                             }
                                         }
-                                    },
-                                    "required": [
-                                        "member"
                                     ]
                                 }
                             },
@@ -264,14 +243,12 @@
                         "description": "The collection page number",
                         "required": false,
                         "deprecated": false,
-                        "allowEmptyValue": true,
                         "schema": {
                             "type": "integer",
                             "default": 1
                         },
                         "style": "form",
-                        "explode": false,
-                        "allowReserved": false
+                        "explode": false
                     },
                     {
                         "name": "itemsPerPage",
@@ -279,18 +256,16 @@
                         "description": "The number of items per page",
                         "required": false,
                         "deprecated": false,
-                        "allowEmptyValue": true,
                         "schema": {
                             "type": "integer",
                             "default": 25,
-                            "minimum": 0
+                            "minimum": 0,
+                            "maximum": 30
                         },
                         "style": "form",
-                        "explode": false,
-                        "allowReserved": false
+                        "explode": false
                     }
-                ],
-                "deprecated": false
+                ]
             },
             "post": {
                 "operationId": "api_users_post",
@@ -340,17 +315,17 @@
                         "content": {
                             "application/ld+json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ConstraintViolation.jsonld-jsonld"
+                                    "$ref": "#/components/schemas/ConstraintViolation.jsonld"
                                 }
                             },
                             "application/problem+json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ConstraintViolation-json"
+                                    "$ref": "#/components/schemas/ConstraintViolation"
                                 }
                             },
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ConstraintViolation-json"
+                                    "$ref": "#/components/schemas/ConstraintViolation"
                                 }
                             }
                         },
@@ -365,7 +340,7 @@
                     "content": {
                         "application/ld+json": {
                             "schema": {
-                                "$ref": "#/components/schemas/User.jsonld-user.write"
+                                "$ref": "#/components/schemas/User-user.write"
                             }
                         },
                         "application/json": {
@@ -375,8 +350,7 @@
                         }
                     },
                     "required": true
-                },
-                "deprecated": false
+                }
             }
         },
         "/users/{id}": {
@@ -432,16 +406,13 @@
                         "description": "User identifier",
                         "required": true,
                         "deprecated": false,
-                        "allowEmptyValue": false,
                         "schema": {
                             "type": "string"
                         },
                         "style": "simple",
-                        "explode": false,
-                        "allowReserved": false
+                        "explode": false
                     }
-                ],
-                "deprecated": false
+                ]
             },
             "delete": {
                 "operationId": "api_users_id_delete",
@@ -483,16 +454,13 @@
                         "description": "User identifier",
                         "required": true,
                         "deprecated": false,
-                        "allowEmptyValue": false,
                         "schema": {
                             "type": "string"
                         },
                         "style": "simple",
-                        "explode": false,
-                        "allowReserved": false
+                        "explode": false
                     }
-                ],
-                "deprecated": false
+                ]
             },
             "patch": {
                 "operationId": "api_users_id_patch",
@@ -542,17 +510,17 @@
                         "content": {
                             "application/ld+json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ConstraintViolation.jsonld-jsonld"
+                                    "$ref": "#/components/schemas/ConstraintViolation.jsonld"
                                 }
                             },
                             "application/problem+json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ConstraintViolation-json"
+                                    "$ref": "#/components/schemas/ConstraintViolation"
                                 }
                             },
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ConstraintViolation-json"
+                                    "$ref": "#/components/schemas/ConstraintViolation"
                                 }
                             }
                         },
@@ -589,13 +557,11 @@
                         "description": "User identifier",
                         "required": true,
                         "deprecated": false,
-                        "allowEmptyValue": false,
                         "schema": {
                             "type": "string"
                         },
                         "style": "simple",
-                        "explode": false,
-                        "allowReserved": false
+                        "explode": false
                     }
                 ],
                 "requestBody": {
@@ -603,26 +569,23 @@
                     "content": {
                         "application/merge-patch+json": {
                             "schema": {
-                                "$ref": "#/components/schemas/User-user.write"
+                                "$ref": "#/components/schemas/User-user.write.jsonMergePatch"
                             }
                         }
                     },
                     "required": true
-                },
-                "deprecated": false
+                }
             }
         }
     },
     "components": {
         "schemas": {
-            "ConstraintViolation-json": {
+            "ConstraintViolation": {
                 "type": "object",
                 "description": "Unprocessable entity",
-                "deprecated": false,
                 "properties": {
                     "status": {
                         "default": 422,
-                        "example": 422,
                         "type": "integer"
                     },
                     "violations": {
@@ -665,112 +628,90 @@
                     }
                 }
             },
-            "ConstraintViolation.jsonld-jsonld": {
-                "type": "object",
-                "description": "Unprocessable entity",
-                "deprecated": false,
-                "properties": {
-                    "@context": {
-                        "readOnly": true,
-                        "oneOf": [
-                            {
+            "ConstraintViolation.jsonld": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/HydraItemBaseSchema"
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "status": {
+                                "default": 422,
+                                "type": "integer"
+                            },
+                            "violations": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "propertyPath": {
+                                            "type": "string",
+                                            "description": "The property path of the violation"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "description": "The message associated with the violation"
+                                        }
+                                    }
+                                }
+                            },
+                            "detail": {
+                                "readOnly": true,
                                 "type": "string"
                             },
-                            {
-                                "type": "object",
-                                "properties": {
-                                    "@vocab": {
-                                        "type": "string"
-                                    },
-                                    "hydra": {
-                                        "type": "string",
-                                        "enum": [
-                                            "http://www.w3.org/ns/hydra/core#"
-                                        ]
-                                    }
-                                },
-                                "required": [
-                                    "@vocab",
-                                    "hydra"
-                                ],
-                                "additionalProperties": true
-                            }
-                        ]
-                    },
-                    "@id": {
-                        "readOnly": true,
-                        "type": "string"
-                    },
-                    "@type": {
-                        "readOnly": true,
-                        "type": "string"
-                    },
-                    "status": {
-                        "default": 422,
-                        "example": 422,
-                        "type": "integer"
-                    },
-                    "violations": {
-                        "type": "array",
-                        "items": {
-                            "type": "object",
-                            "properties": {
-                                "propertyPath": {
-                                    "type": "string",
-                                    "description": "The property path of the violation"
-                                },
-                                "message": {
-                                    "type": "string",
-                                    "description": "The message associated with the violation"
-                                }
+                            "description": {
+                                "readOnly": true,
+                                "type": "string"
+                            },
+                            "type": {
+                                "readOnly": true,
+                                "type": "string"
+                            },
+                            "title": {
+                                "readOnly": true,
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "instance": {
+                                "readOnly": true,
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
                             }
                         }
-                    },
-                    "detail": {
-                        "readOnly": true,
-                        "type": "string"
-                    },
-                    "description": {
-                        "readOnly": true,
-                        "type": "string"
-                    },
-                    "type": {
-                        "readOnly": true,
-                        "type": "string"
-                    },
-                    "title": {
-                        "readOnly": true,
-                        "type": [
-                            "string",
-                            "null"
-                        ]
-                    },
-                    "instance": {
-                        "readOnly": true,
-                        "type": [
-                            "string",
-                            "null"
-                        ]
                     }
-                }
+                ],
+                "description": "Unprocessable entity"
             },
             "Error": {
                 "type": "object",
                 "description": "A representation of common errors.",
-                "deprecated": false,
                 "properties": {
                     "title": {
                         "readOnly": true,
                         "description": "A short, human-readable summary of the problem.",
-                        "type": "string"
+                        "type": [
+                            "string",
+                            "null"
+                        ]
                     },
                     "detail": {
                         "readOnly": true,
                         "description": "A human-readable explanation specific to this occurrence of the problem.",
-                        "type": "string"
+                        "type": [
+                            "string",
+                            "null"
+                        ]
                     },
                     "status": {
-                        "type": "number",
+                        "type": [
+                            "number",
+                            "null"
+                        ],
                         "examples": [
                             404
                         ],
@@ -792,12 +733,162 @@
                 }
             },
             "Error.jsonld": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/HydraItemBaseSchema"
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "title": {
+                                "readOnly": true,
+                                "description": "A short, human-readable summary of the problem.",
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "detail": {
+                                "readOnly": true,
+                                "description": "A human-readable explanation specific to this occurrence of the problem.",
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "status": {
+                                "type": [
+                                    "number",
+                                    "null"
+                                ],
+                                "examples": [
+                                    404
+                                ],
+                                "default": 400
+                            },
+                            "instance": {
+                                "readOnly": true,
+                                "description": "A URI reference that identifies the specific occurrence of the problem. It may or may not yield further information if dereferenced.",
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            },
+                            "type": {
+                                "readOnly": true,
+                                "description": "A URI reference that identifies the problem type",
+                                "type": "string"
+                            },
+                            "description": {
+                                "readOnly": true,
+                                "type": [
+                                    "string",
+                                    "null"
+                                ]
+                            }
+                        }
+                    }
+                ],
+                "description": "A representation of common errors."
+            },
+            "HydraCollectionBaseSchema": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/HydraCollectionBaseSchemaNoPagination"
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "view": {
+                                "type": "object",
+                                "properties": {
+                                    "@id": {
+                                        "type": "string",
+                                        "format": "iri-reference"
+                                    },
+                                    "@type": {
+                                        "type": "string"
+                                    },
+                                    "first": {
+                                        "type": "string",
+                                        "format": "iri-reference"
+                                    },
+                                    "last": {
+                                        "type": "string",
+                                        "format": "iri-reference"
+                                    },
+                                    "previous": {
+                                        "type": "string",
+                                        "format": "iri-reference"
+                                    },
+                                    "next": {
+                                        "type": "string",
+                                        "format": "iri-reference"
+                                    }
+                                },
+                                "example": {
+                                    "@id": "string",
+                                    "type": "string",
+                                    "first": "string",
+                                    "last": "string",
+                                    "previous": "string",
+                                    "next": "string"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            "HydraCollectionBaseSchemaNoPagination": {
                 "type": "object",
-                "description": "A representation of common errors.",
-                "deprecated": false,
+                "properties": {
+                    "totalItems": {
+                        "type": "integer",
+                        "minimum": 0
+                    },
+                    "search": {
+                        "type": "object",
+                        "properties": {
+                            "@type": {
+                                "type": "string"
+                            },
+                            "template": {
+                                "type": "string"
+                            },
+                            "variableRepresentation": {
+                                "type": "string"
+                            },
+                            "mapping": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "@type": {
+                                            "type": "string"
+                                        },
+                                        "variable": {
+                                            "type": "string"
+                                        },
+                                        "property": {
+                                            "type": [
+                                                "string",
+                                                "null"
+                                            ]
+                                        },
+                                        "required": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "HydraItemBaseSchema": {
+                "type": "object",
                 "properties": {
                     "@context": {
-                        "readOnly": true,
                         "oneOf": [
                             {
                                 "type": "string"
@@ -824,56 +915,19 @@
                         ]
                     },
                     "@id": {
-                        "readOnly": true,
                         "type": "string"
                     },
                     "@type": {
-                        "readOnly": true,
                         "type": "string"
-                    },
-                    "title": {
-                        "readOnly": true,
-                        "description": "A short, human-readable summary of the problem.",
-                        "type": "string"
-                    },
-                    "detail": {
-                        "readOnly": true,
-                        "description": "A human-readable explanation specific to this occurrence of the problem.",
-                        "type": "string"
-                    },
-                    "status": {
-                        "type": "number",
-                        "examples": [
-                            404
-                        ],
-                        "default": 400
-                    },
-                    "instance": {
-                        "readOnly": true,
-                        "description": "A URI reference that identifies the specific occurrence of the problem. It may or may not yield further information if dereferenced.",
-                        "type": [
-                            "string",
-                            "null"
-                        ]
-                    },
-                    "type": {
-                        "readOnly": true,
-                        "description": "A URI reference that identifies the problem type",
-                        "type": "string"
-                    },
-                    "description": {
-                        "readOnly": true,
-                        "type": [
-                            "string",
-                            "null"
-                        ]
                     }
-                }
+                },
+                "required": [
+                    "@id",
+                    "@type"
+                ]
             },
             "User-user.read": {
                 "type": "object",
-                "description": "",
-                "deprecated": false,
                 "properties": {
                     "id": {
                         "readOnly": true,
@@ -898,12 +952,33 @@
             },
             "User-user.write": {
                 "type": "object",
-                "description": "",
-                "deprecated": false,
                 "required": [
                     "identifier",
                     "roles"
                 ],
+                "properties": {
+                    "identifier": {
+                        "maxLength": 128,
+                        "type": "string"
+                    },
+                    "plainPassword": {
+                        "minLength": 8,
+                        "maxLength": 128,
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "roles": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "User-user.write.jsonMergePatch": {
+                "type": "object",
                 "properties": {
                     "identifier": {
                         "maxLength": 128,
@@ -926,94 +1001,35 @@
                 }
             },
             "User.jsonld-user.read": {
-                "type": "object",
-                "description": "",
-                "deprecated": false,
-                "properties": {
-                    "@context": {
-                        "readOnly": true,
-                        "oneOf": [
-                            {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/HydraItemBaseSchema"
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "readOnly": true,
+                                "type": "string",
+                                "format": "ulid"
+                            },
+                            "identifier": {
+                                "maxLength": 128,
                                 "type": "string"
                             },
-                            {
-                                "type": "object",
-                                "properties": {
-                                    "@vocab": {
-                                        "type": "string"
-                                    },
-                                    "hydra": {
-                                        "type": "string",
-                                        "enum": [
-                                            "http://www.w3.org/ns/hydra/core#"
-                                        ]
-                                    }
-                                },
-                                "required": [
-                                    "@vocab",
-                                    "hydra"
-                                ],
-                                "additionalProperties": true
+                            "roles": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
                             }
+                        },
+                        "required": [
+                            "identifier",
+                            "roles"
                         ]
-                    },
-                    "@id": {
-                        "readOnly": true,
-                        "type": "string"
-                    },
-                    "@type": {
-                        "readOnly": true,
-                        "type": "string"
-                    },
-                    "id": {
-                        "readOnly": true,
-                        "type": "string",
-                        "format": "ulid"
-                    },
-                    "identifier": {
-                        "maxLength": 128,
-                        "type": "string"
-                    },
-                    "roles": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        }
                     }
-                },
-                "required": [
-                    "identifier",
-                    "roles"
                 ]
-            },
-            "User.jsonld-user.write": {
-                "type": "object",
-                "description": "",
-                "deprecated": false,
-                "required": [
-                    "identifier",
-                    "roles"
-                ],
-                "properties": {
-                    "identifier": {
-                        "maxLength": 128,
-                        "type": "string"
-                    },
-                    "plainPassword": {
-                        "minLength": 8,
-                        "maxLength": 128,
-                        "type": [
-                            "string",
-                            "null"
-                        ]
-                    },
-                    "roles": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        }
-                    }
-                }
             }
         },
         "responses": {},
@@ -1022,8 +1038,9 @@
         "requestBodies": {},
         "headers": {},
         "securitySchemes": {
-            "JWT": {
+            "BearerAuth": {
                 "type": "http",
+                "description": "JWT Bearer authentication",
                 "scheme": "bearer",
                 "bearerFormat": "JWT"
             }
@@ -1031,12 +1048,13 @@
     },
     "security": [
         {
-            "JWT": []
+            "BearerAuth": []
         }
     ],
     "tags": [
         {
-            "name": "User"
+            "name": "User",
+            "description": "Resource 'User' operations."
         }
     ],
     "webhooks": {}

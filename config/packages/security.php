@@ -27,7 +27,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ],
         'firewalls' => [
             'dev' => [
-                'pattern' => '^/_(profiler|wdt)',
+                'pattern' => '^/(_profiler|_wdt|bundles|docs)/',
                 'security' => false,
             ],
             'main' => [
@@ -35,15 +35,14 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 'provider' => 'user_provider',
                 'entry_point' => 'jwt',
                 'json_login' => [
-                    'check_path' => 'authenticate',
+                    'check_path' => '/auth',
                     'username_path' => 'identifier',
-                    'password_path' => 'password',
                     'success_handler' => 'lexik_jwt_authentication.handler.authentication_success',
                     'failure_handler' => 'lexik_jwt_authentication.handler.authentication_failure',
                 ],
                 'jwt' => null,
                 'refresh_jwt' => [
-                    'check_path' => 'refresh_tokens',
+                    'check_path' => '_api_/auth/refresh_tokens.json_post',
                 ],
             ],
         ],
@@ -53,7 +52,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 'roles' => 'PUBLIC_ACCESS',
             ],
             [
-                'path' => '^/(me|authenticate|refresh_tokens)',
+                'path' => '^/(auth|refresh_tokens)$',
                 'roles' => 'PUBLIC_ACCESS',
                 'method' => 'POST',
             ],
